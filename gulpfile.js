@@ -36,7 +36,19 @@ gulp.task('scripts', ['lint'], function() {
         .bundle()
         .pipe(source('inscrybmde.min.js'))
         .pipe(buffer())
-        .pipe(uglify())
+        // .pipe(uglify())
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('scripts', ['lint'], function() {
+    return browserify({
+        entries: './src/js/inscrybmde.js',
+        standalone: 'InscrybMDE'
+    })
+        .bundle()
+        .pipe(source('inscrybmde.js'))
+        .pipe(buffer())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(gulp.dest('./dist/'));
 });
@@ -53,6 +65,21 @@ gulp.task('styles', function() {
         .pipe(concat('inscrybmde.css'))
         .pipe(minifycss())
         .pipe(rename('inscrybmde.min.css'))
+        .pipe(buffer())
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('styles', function() {
+    var css_files = [
+        './node_modules/codemirror/lib/codemirror.css',
+        './src/css/*.css',
+        './node_modules/codemirror-spell-checker/src/css/spell-checker.css'
+    ];
+
+    return gulp
+        .src(css_files)
+        .pipe(concat('inscrybmde.css'))
         .pipe(buffer())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(gulp.dest('./dist/'));
