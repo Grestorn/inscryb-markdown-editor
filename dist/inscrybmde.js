@@ -17822,7 +17822,7 @@ function InscrybMDE(options) {
 
     // Auto render
     var autoRender = true;
-    if (options.autorender === false) {
+    if (options.autoRender === false) {
         autoRender = false;
     }
 
